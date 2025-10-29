@@ -1,14 +1,11 @@
 package domain;
-
 import java.io.Serializable;
-
 public class VideoGame implements Serializable {
     private String genre = "", title = "";
     private Double price = 0.0;
     private int amount = 0;
 
-    public VideoGame() {
-    }
+    public VideoGame() {}
 
     public void setGenre(String genre) {
         this.genre = genre;
