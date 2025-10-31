@@ -1,11 +1,11 @@
 package domain;
 import java.io.Serializable;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class Customer implements Serializable {
     private String name = "";
-    private int id = 0;
-    private ArrayList<Order> orders = new ArrayList<>();
+    private int CC = 0;
+    //private ArrayList<Order> orders = new ArrayList<>();
 
     public Customer() {
     }
@@ -18,15 +18,15 @@ public class Customer implements Serializable {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public int getCC() {
+        return CC;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCC(int CC) {
+        this.CC = CC;
     }
 
-    public void addOrder(Order order) {
+    /*public void addOrder(Order order) {
         if (order != null) {
             orders.add(order);
         }
@@ -34,5 +34,5 @@ public class Customer implements Serializable {
 
     public ArrayList<Order> getOrders() {
         return orders;
-    }
+    }*/
 }
