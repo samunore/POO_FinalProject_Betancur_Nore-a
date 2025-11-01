@@ -3,27 +3,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
-    private int id = 0;
     private Double total = 0.0;
+    private int id = 0;
     private ArrayList<VideoGame> videogames = new ArrayList<>();
 
-    public Order() {}
-
     public Order(int id) {
-        this.id = id;
     }
 
     public void addVideoGameOrder(VideoGame game) {
-        if (game != null) {
-            videogames.add(game);
+        for (VideoGame videoGame : videogames) {
+            if (videoGame.getTitle().toLowerCase() != game.getTitle().toLowerCase()) {
+                if (game != null) {
+                    videogames.add(game);
+                }
+            }
         }
     }
 
-    public void removeVideoGameOrder(int position) {
-        if (position >= 0 && position < videogames.size()) {
-            videogames.remove(position);
-        }
-    }
+    /*
+     * public void removeVideoGameOrder(int position) {
+     * if (position >= 0 && position < videogames.size()) {
+     * videogames.remove(position);
+     * }
+     * }
+     */
 
     public double getTotalPrice() {
         total = 0.0;
@@ -37,17 +40,11 @@ public class Order implements Serializable {
         return videogames.size();
     }
 
-    public void clearOrder() {
-        videogames.clear();
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
+    /*
+     * public void clearOrder() {
+     * videogames.clear();
+     * }
+     */
 
     public ArrayList<VideoGame> getVideoGames() {
         return videogames;
