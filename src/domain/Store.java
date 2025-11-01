@@ -26,10 +26,11 @@ public class Store implements Serializable {
     public void addVideoGameStore(VideoGame game) {
         for (VideoGame videoGame : videoGames) {
             if (videoGame.getTitle().toLowerCase().equals(game.getTitle().toLowerCase())) {
-                if (game != null) {
-                    videoGames.add(game);
-                }
+                return;
             }
+        }
+        if (game != null) {
+            videoGames.add(game);
         }
     }
 
@@ -58,8 +59,7 @@ public class Store implements Serializable {
     }
 
     public int getIdOrder() {
-        idOrder++;
-        return idOrder;
+        return ++idOrder;
     }
 
     public void addOrder(Order order) {
@@ -72,11 +72,12 @@ public class Store implements Serializable {
 
     public void addCustomer(Customer customer) {
         for (Customer customer2 : customers) {
-            if (customer2.getCC() !=customer.getCC()) {
-                if (customer != null) {
-                    customers.add(customer);
-                }
+            if (customer2.getCC() == customer.getCC()) {
+                return;
             }
+        }
+        if (customer != null) {
+            customers.add(customer);
         }
     }
 }
