@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Order implements Serializable {
     private Double total = 0.0;
-    private int id = 0;
     private ArrayList<VideoGame> videogames = new ArrayList<>();
 
     public Order(int id) {
@@ -12,11 +11,12 @@ public class Order implements Serializable {
 
     public void addVideoGameOrder(VideoGame game) {
         for (VideoGame videoGame : videogames) {
-            if (videoGame.getTitle().toLowerCase() != game.getTitle().toLowerCase()) {
-                if (game != null) {
-                    videogames.add(game);
-                }
+            if (videoGame.getTitle().toLowerCase().equals(game.getTitle().toLowerCase())) {
+                return;
             }
+        }
+        if (game != null) {
+            videogames.add(game);
         }
     }
 
