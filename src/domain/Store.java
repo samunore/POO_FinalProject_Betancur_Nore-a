@@ -64,6 +64,7 @@ public class Store implements Serializable {
 
     public void addOrder(Order order) {
         if (order != null) {
+            order.setId(getIdOrder());
             orders.add(order);
             saleRecord++;
             incomeReport += order.getTotalPrice();
