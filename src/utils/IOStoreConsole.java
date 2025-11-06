@@ -1,7 +1,9 @@
 package utils;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+import domain.Customer;
+import domain.Order;
+import domain.VideoGame;
 
 public class IOStoreConsole implements IOStore {
 
@@ -32,7 +34,23 @@ public class IOStoreConsole implements IOStore {
     }
 
     @Override
-    public void showList(ArrayList<?> list) {
-        
+    public void showListVideoGames(ArrayList<VideoGame> videoGames) {
+        for (VideoGame videoGame : videoGames) {
+            System.out.println("Titulo: " + videoGame.getTitle() + ", Genero: " + videoGame.getGenre() + ", Precio: " + videoGame.getPrice());
+        }
+    }
+
+    @Override
+    public void showListOrder(ArrayList<Order> orders) {
+        for (Order order : orders) {
+            System.out.println("ID: " + order.getId() + " | Precio total: " + order.getTotalPrice());
+        }
+    }
+
+    @Override
+    public void showListCustomer(ArrayList<Customer> customers) {
+        for (Customer customer : customers) {
+            System.out.println("Nombre: " + customer.getName() + ", C.C: " + customer.getCC());
+        }
     }
 }
