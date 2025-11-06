@@ -3,10 +3,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
+    private int id = 0;
     private Double total = 0.0;
     private ArrayList<VideoGame> videogames = new ArrayList<>();
 
-    public Order(int id) {
+    public Order() {
     }
 
     public void addVideoGameOrder(VideoGame game) {
@@ -34,6 +35,14 @@ public class Order implements Serializable {
             total += game.getPrice();
         }
         return total;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getVideoGameCount() {
