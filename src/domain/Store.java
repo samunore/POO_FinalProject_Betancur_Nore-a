@@ -11,6 +11,8 @@ public class Store implements Serializable {
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
 
+    public Store(){}
+
     public String getName() {
         return name;
     }
@@ -59,7 +61,8 @@ public class Store implements Serializable {
     }
 
     public int getIdOrder() {
-        return ++idOrder;
+        ++idOrder;
+        return idOrder;
     }
 
     public void addOrder(Order order) {
