@@ -36,21 +36,21 @@ public class IOStoreConsole implements IOStore {
     @Override
     public void showListVideoGames(ArrayList<VideoGame> videoGames) {
         for (VideoGame videoGame : videoGames) {
-            System.out.println("Titulo: " + videoGame.getTitle() + ", Genero: " + videoGame.getGenre() + ", Precio: " + videoGame.getPrice());
+            System.out.println("Titulo: " + videoGame.getTitle() + ", Genero: " + videoGame.getGenre() + ", Precio: " + videoGame.getPrice() + "\n");
         }
     }
 
     @Override
     public void showListOrder(ArrayList<Order> orders) {
         for (Order order : orders) {
-            System.out.println("ID: " + order.getId() + " | Precio total: " + order.getTotalPrice());
+            System.out.println("ID: " + order.getId() + " | Precio total: " + order.getTotalPrice() + "\n");
         }
     }
 
     @Override
     public void showListCustomer(ArrayList<Customer> customers) {
         for (Customer customer : customers) {
-            System.out.println("Nombre: " + customer.getName() + ", C.C: " + customer.getCC());
+            System.out.println("Nombre: " + customer.getName() + ", C.C: " + customer.getCC() + "\n");
         }
     }
 }
