@@ -17,15 +17,20 @@ public class IOStoreConsole implements IOStore {
     }
 
     @Override
-    public int inputInt(String title) {
+    public int inputInt(String numInt) {
 
-        return Integer.parseInt(inputText(title));
+        return Integer.parseInt(inputText(numInt));
     }
 
     @Override
-    public double inputDouble(String title) {
+    public double inputDouble(String numDouble) {
 
-        return Double.parseDouble(inputText(title));
+        return Double.parseDouble(inputText(numDouble));
+    }
+
+    @Override
+    public long inputLong(String numLong) {
+        return Long.parseLong(inputText(numLong));
     }
 
     @Override
@@ -36,7 +41,8 @@ public class IOStoreConsole implements IOStore {
     @Override
     public void showListVideoGames(ArrayList<VideoGame> videoGames) {
         for (VideoGame videoGame : videoGames) {
-            System.out.println("Titulo: " + videoGame.getTitle() + ", Genero: " + videoGame.getGenre() + ", Precio: " + videoGame.getPrice() + "\n");
+            System.out.println("Titulo: " + videoGame.getTitle() + ", Genero: " + videoGame.getGenre() + ", Precio: "
+                    + videoGame.getPrice() + "\n");
         }
     }
 
