@@ -3,13 +3,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Store implements Serializable {
-    private String name = "La Cucha";
+    private String name = "";
     private int saleRecord = 0;
     private Double incomeReport = 0.0;
     private int idOrder = 0;
     private ArrayList<VideoGame> videoGames = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
+
+    public Store(){}
+
+    public void setName(String name){
+        this.name=name;
+    }
 
     public String getName() {
         return name;
@@ -59,7 +65,8 @@ public class Store implements Serializable {
     }
 
     public int getIdOrder() {
-        return ++idOrder;
+        ++idOrder;
+        return idOrder;
     }
 
     public void addOrder(Order order) {
@@ -80,5 +87,14 @@ public class Store implements Serializable {
         if (customer != null) {
             customers.add(customer);
         }
+    }
+
+    public Customer FindByCC(long CC){
+        for (Customer customer : customers) {
+            if (CC==customer.getCC()) {
+                return customer;
+            }
+        }
+        return null;
     }
 }

@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 public class Customer implements Serializable {
     private String name = "";
-    private int CC = 0;
+    private long CC = 0;
+    private long number=0;
+
     //private ArrayList<Order> orders = new ArrayList<>();
 
     public Customer() {
@@ -18,12 +20,20 @@ public class Customer implements Serializable {
         this.name = name;
     }
 
-    public int getCC() {
+    public long getCC() {
         return CC;
     }
 
-    public void setCC(int CC) {
+    public void setCC(long CC) {
         this.CC = CC;
+    }
+
+    public void setNumber(long number){
+        this.number=number;
+    }
+
+    public long getNumber(){
+        return number;
     }
 
     /*public void addOrder(Order order) {

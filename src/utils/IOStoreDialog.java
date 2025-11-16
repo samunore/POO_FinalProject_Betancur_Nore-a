@@ -13,13 +13,18 @@ public class IOStoreDialog implements IOStore {
     }
 
     @Override
-    public int inputInt(String title) {
-        return Integer.parseInt(inputText(title));
+    public int inputInt(String numInt) {
+        return Integer.parseInt(inputText(numInt));
     }
 
     @Override
-    public double inputDouble(String title) {
-        return Double.parseDouble(inputText(title));
+    public double inputDouble(String numDouble) {
+        return Double.parseDouble(inputText(numDouble));
+    }
+
+    @Override
+    public long inputLong(String numLong) {
+        return Long.parseLong(inputText(numLong));
     }
 
     @Override
@@ -32,7 +37,8 @@ public class IOStoreDialog implements IOStore {
     @Override
     public void showListVideoGames(ArrayList<VideoGame> videoGames) {
         for (VideoGame videoGame : videoGames) {
-            sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ").append(videoGame.getGenre()).append(", Precio: ").append(videoGame.getPrice()).append("\n");
+            sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ").append(videoGame.getGenre())
+                    .append(", Precio: ").append(videoGame.getPrice()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
@@ -40,7 +46,8 @@ public class IOStoreDialog implements IOStore {
     @Override
     public void showListOrder(ArrayList<Order> orders) {
         for (Order order : orders) {
-            sb.append("ID: ").append(order.getId()).append(", \n Precio total: ").append(order.getTotalPrice()).append("\n");
+            sb.append("ID: ").append(order.getId()).append(", \n Precio total: ").append(order.getTotalPrice())
+                    .append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
