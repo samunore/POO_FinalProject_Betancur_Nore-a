@@ -21,7 +21,6 @@ public class StoreStorage {
     public static Store load(String filename) {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
             return (Store) in.readObject();
-
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error al cargar los datos de la tienda: " + e.getMessage());
             return null;

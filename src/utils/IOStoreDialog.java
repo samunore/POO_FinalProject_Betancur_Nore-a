@@ -38,7 +38,7 @@ public class IOStoreDialog implements IOStore {
     public void showListVideoGames(ArrayList<VideoGame> videoGames) {
         for (VideoGame videoGame : videoGames) {
             sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ").append(videoGame.getGenre())
-                    .append(", Precio: ").append(videoGame.getPrice()).append("\n");
+                    .append(", Precio: $ ").append(videoGame.getPrice()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
@@ -46,7 +46,7 @@ public class IOStoreDialog implements IOStore {
     @Override
     public void showListOrder(ArrayList<Order> orders) {
         for (Order order : orders) {
-            sb.append("ID: ").append(order.getId()).append(", \n Precio total: ").append(order.getTotalPrice())
+            sb.append("ID: ").append(order.getId()).append(", \n Precio total: $ ").append(order.getTotalPrice())
                     .append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());

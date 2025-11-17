@@ -7,7 +7,8 @@ public class Order implements Serializable {
     private Double total = 0.0;
     private ArrayList<VideoGame> videogames = new ArrayList<>();
 
-    public Order() {
+    public Order(int id) {
+        this.id = id;
     }
 
     public void addVideoGameOrder(VideoGame game) {
@@ -35,10 +36,6 @@ public class Order implements Serializable {
             total += game.getPrice();
         }
         return total;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getId() {
