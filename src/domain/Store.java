@@ -1,4 +1,5 @@
 package domain;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,10 +12,11 @@ public class Store implements Serializable {
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
 
-    public Store(){}
+    public Store() {
+    }
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -47,7 +49,7 @@ public class Store implements Serializable {
     public ArrayList<VideoGame> searchTitle(String title) {
         ArrayList<VideoGame> results = new ArrayList<>();
         for (VideoGame game : videoGames) {
-            if (game.getTitle().toLowerCase().equals(title.toLowerCase())) {
+            if (game.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 results.add(game);
             }
         }
@@ -71,11 +73,14 @@ public class Store implements Serializable {
 
     public void addOrder(Order order) {
         if (order != null) {
-            order.setId(getIdOrder());
             orders.add(order);
             saleRecord++;
             incomeReport += order.getTotalPrice();
         }
+    }
+
+    public ArrayList <Order> ordersStore(){
+        return orders;
     }
 
     public void addCustomer(Customer customer) {
@@ -89,9 +94,13 @@ public class Store implements Serializable {
         }
     }
 
-    public Customer FindByCC(long CC){
+    public ArrayList <Customer> registeredCustomers(){
+        return customers;
+    }
+
+    public Customer FindByCC(long CC) {
         for (Customer customer : customers) {
-            if (CC==customer.getCC()) {
+            if (CC == customer.getCC()) {
                 return customer;
             }
         }
