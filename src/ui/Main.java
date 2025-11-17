@@ -11,7 +11,7 @@ import utils.IOStoreConsole;
 import utils.IOStoreDialog;
 
 public class Main {
-    private static void loadEnterprise() {
+    private static void loadStore() {
         var loaded = StoreStorage.load(FILE_NAME);
         if (loaded != null) {
             store = loaded;
@@ -269,7 +269,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        loadEnterprise();
+        loadStore();
         store.setName("La Cucha");
         System.out.println(
                 "Hola.\nPulse (1) si quiere que la información se muestre por consola. \nPulse (2) si quiere que la información se muestre por ventanas.");
