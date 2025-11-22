@@ -106,4 +106,13 @@ public class Store implements Serializable {
         }
         return null;
     }
+
+    public Customer findNumber(long number){
+        for (Customer customer : customers) {
+            if (number == customer.getNumber()) {
+                return customer;
+            }
+        }
+        return null;
+    }
 }
