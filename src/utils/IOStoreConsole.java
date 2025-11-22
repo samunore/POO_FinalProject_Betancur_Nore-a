@@ -1,4 +1,5 @@
 package utils;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import domain.Customer;
@@ -12,25 +13,40 @@ public class IOStoreConsole implements IOStore {
     @Override
     public String inputText(String title) {
         System.out.println(title);
-
         return input.nextLine();
     }
 
     @Override
     public int inputInt(String numInt) {
-
-        return Integer.parseInt(inputText(numInt));
+        while (true) {
+            try {
+                return Integer.parseInt(inputText(numInt));
+            } catch (NumberFormatException e) {
+                showText("Error: ingrese un número válido.");
+            }
+        }
     }
 
     @Override
     public double inputDouble(String numDouble) {
-
-        return Double.parseDouble(inputText(numDouble));
+        while (true) {
+            try {
+                return Double.parseDouble(inputText(numDouble));
+            } catch (NumberFormatException e) {
+                showText("Error: ingrese un número válido.");
+            }
+        }
     }
 
     @Override
     public long inputLong(String numLong) {
-        return Long.parseLong(inputText(numLong));
+        while (true) {
+            try {
+                return Long.parseLong(inputText(numLong));
+            } catch (NumberFormatException e) {
+                showText("Error: ingrese un número válido.");
+            }
+        }
     }
 
     @Override
@@ -56,7 +72,8 @@ public class IOStoreConsole implements IOStore {
     @Override
     public void showListCustomer(ArrayList<Customer> customers) {
         for (Customer customer : customers) {
-            System.out.println("Nombre: " + customer.getName() + ", C.C: " + customer.getCC() + "\n");
+            System.out.println("Nombre: " + customer.getName() + ", C.C: " + customer.getCC() + ", Celular: "
+                    + customer.getNumber() + "\n");
         }
     }
 }
