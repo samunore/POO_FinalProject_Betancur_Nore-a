@@ -1,4 +1,5 @@
 package utils;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import domain.Customer;
@@ -14,17 +15,35 @@ public class IOStoreDialog implements IOStore {
 
     @Override
     public int inputInt(String numInt) {
-        return Integer.parseInt(inputText(numInt));
+        while (true) {
+            try {
+                return Integer.parseInt(inputText(numInt));
+            } catch (NumberFormatException e) {
+                showText("Error: ingrese un número válido.");
+            }
+        }
     }
 
     @Override
     public double inputDouble(String numDouble) {
-        return Double.parseDouble(inputText(numDouble));
+        while (true) {
+            try {
+                return Double.parseDouble(inputText(numDouble));
+            } catch (NumberFormatException e) {
+                showText("Error: ingrese un número válido.");
+            }
+        }
     }
 
     @Override
     public long inputLong(String numLong) {
-        return Long.parseLong(inputText(numLong));
+        while (true) {
+            try {
+                return Long.parseLong(inputText(numLong));
+            } catch (NumberFormatException e) {
+                showText("Error: ingrese un número válido.");
+            }
+        }
     }
 
     @Override
@@ -55,7 +74,8 @@ public class IOStoreDialog implements IOStore {
     @Override
     public void showListCustomer(ArrayList<Customer> customers) {
         for (Customer customer : customers) {
-            sb.append("Nombre: ").append(customer.getName()).append("C.C: ").append(customer.getName()).append("\n");
+            sb.append("Nombre: ").append(customer.getName()).append("C.C: ").append(customer.getName())
+                    .append(", Celular: ").append(customer.getNumber()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
