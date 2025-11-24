@@ -60,23 +60,28 @@ public class IOStoreDialog implements IOStore {
                     .append(", Precio: $ ").append(videoGame.getPrice()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
+        sb.setLength(0);        
     }
 
     @Override
     public void showListOrder(ArrayList<Order> orders) {
+        int k = 0;
         for (Order order : orders) {
-            sb.append("ID: ").append(order.getId()).append(", \n Precio total: $ ").append(order.getTotalPrice())
+            sb.append("ID: ").append((order.getId()+k)).append(", \n Precio total: $ ").append(order.getTotalPrice()+"\n")
                     .append("\n");
+                k+=1;
         }
         JOptionPane.showMessageDialog(null, sb.toString());
+        sb.setLength(0);
     }
 
     @Override
     public void showListCustomer(ArrayList<Customer> customers) {
         for (Customer customer : customers) {
-            sb.append("Nombre: ").append(customer.getName()).append("C.C: ").append(customer.getName())
+            sb.append("Nombre: ").append(customer.getName()).append("C.C: ").append(customer.getCC())
                     .append(", Celular: ").append(customer.getNumber()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
+        sb.setLength(0);
     }
 }

@@ -64,8 +64,10 @@ public class IOStoreConsole implements IOStore {
 
     @Override
     public void showListOrder(ArrayList<Order> orders) {
-        for (Order order : orders) {
-            System.out.println("ID: " + order.getId() + " | Precio total: $ " + order.getTotalPrice() + "\n");
+        int k=0;
+            for (Order order : orders) {
+            System.out.println("ID: " + (order.getId()+k) + " | Precio total: $ " + order.getTotalPrice() + "\n");  
+            k++;
         }
     }
 
