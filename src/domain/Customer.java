@@ -1,7 +1,6 @@
 package domain;
 
 import java.io.Serializable;
-//import java.util.ArrayList;
 import java.util.ArrayList;
 
 public class Customer implements Serializable {
