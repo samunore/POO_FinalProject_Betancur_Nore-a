@@ -1,4 +1,5 @@
 package ui;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,9 +55,9 @@ public class Main {
     }
 
     private static Store store = new Store();
-    private static Customer customer = new Customer();
-    private static VideoGame videogame = new VideoGame();
-    private static Order order = new Order(store.getIdOrder());
+    private static Customer customer;
+    private static VideoGame videogame;
+    private static Order order;
 
     private static int inputPositiveInt(int number) {
         while (number < 0) {
@@ -103,28 +104,37 @@ public class Main {
     private static void optionCustomer(int option) {
         switch (option) {
             case 1 -> {
-                Long customerFindCc = inputPositiveLong(inout.inputLong("Ingrese la cedula del cliente: "));
-                Customer customer = store.FindByCC(customerFindCc);
-                if (customer != null) {
-                    ArrayList<Customer> result = new ArrayList<>();
-                    result.add(customer);
-                    inout.showListCustomer(result);
+                if (store.registeredCustomers().size() == 0) {
+                    inout.showText("No hay clientes registrados.");
                 } else {
-                    inout.showText("La cedula " + customerFindCc + " no se encontro.");
+                    Long customerFindCc = inputPositiveLong(inout.inputLong("Ingrese la cedula del cliente: "));
+                    Customer customer = store.FindByCC(customerFindCc);
+                    if (customer != null) {
+                        ArrayList<Customer> result = new ArrayList<>();
+                        result.add(customer);
+                        inout.showListCustomer(result);
+                    } else {
+                        inout.showText("La cedula " + customerFindCc + " no se encontro.");
+                    }
                 }
             }
             case 2 -> {
-                Long customerFindNumber = inputPositiveLong(inout.inputLong("Ingrese el numero de celular: "));
-                Customer customer = store.findNumber(customerFindNumber);
-                if (customer != null) {
-                    ArrayList<Customer> result = new ArrayList<>();
-                    result.add(customer);
-                    inout.showListCustomer(result);
+                if (store.registeredCustomers().size() == 0) {
+                    inout.showText("No hay clientes registrados.");
                 } else {
-                    inout.showText("El numero " + customerFindNumber + " no se encontro.");
+                    Long customerFindNumber = inputPositiveLong(inout.inputLong("Ingrese el numero de celular: "));
+                    Customer customer = store.findNumber(customerFindNumber);
+                    if (customer != null) {
+                        ArrayList<Customer> result = new ArrayList<>();
+                        result.add(customer);
+                        inout.showListCustomer(result);
+                    } else {
+                        inout.showText("El numero " + customerFindNumber + " no se encontro.");
+                    }
                 }
             }
             case 3 -> {
+                customer = new Customer();
                 customer.setName(inout.inputText("Ingrese el nombre:"));
                 customer.setCC(inputPositiveLong(inout.inputLong("Ingrese la cedula:")));
                 customer.setNumber(inputPositiveLong(inout.inputLong("Ingrese el numero de celular:")));
@@ -171,142 +181,306 @@ public class Main {
         }
     }
 
-    private static void showOptionsOrder() {
-        inout.showText("        OPCIONES DE PEDIDOS     \n(1) Hacer pedido.\n(2) Volver al menu principal.");
+    private static void showOptionOrderCustomer() {
+        inout.showText("Atencion: Para continuar debe estar en registrado en la tienda.");
+        inout.showText(
+                "(1) Buscar cliente por su Cédula de Ciudadanía.\n(2) Buscar cliente por numero de celular.\n(3) Volver al menu principal.");
     }
 
-    private static void optionOrder(int option) {
+    private static void showOptionsOrder() {
+        inout.showText(
+                "        OPCIONES DE PEDIDOS     \n(1) Hacer pedido.\n(2) Ver ordernes del cliente.\n(3) Volver al menu anterior.");
+    }
+
+    private static void optionOrderCustomer(int option) {
         switch (option) {
             case 1 -> {
-                int options = 0;
-                do {
-                    inout.showText(
-                            "(1) Ver Video Juegos disponibles.\n(2) Buscar por titulo.\n(3) Buscar por genero.\n(4) Detalles de la orden \n(5) Finalizar compra.\n(6) Salir.");
-                    int answerOrder = inout.inputInt("Seleccione una opción:");
-                    switch (answerOrder) {
-                        case 1 -> {
-                            ArrayList<VideoGame> result = store.availableVideoGames();
-                            for (int i = 0; i < result.size(); i++) {
-                                StringBuilder sb = new StringBuilder();
-                                VideoGame game = result.get(i);
-                                sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
-                                        .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
-                                        .append(game.getPrice());
-                                inout.showText(sb.toString());
-                            }
-                            inout.showText((result.size() + 1) + ". Para salir.");
-                            int choice = inout.inputInt("Seleccione un videojuego por número:");
-                            if (choice < 1 || choice > (result.size() + 1)) {
-                                inout.showText("Opción inválida.");
-                            } else if (choice == (result.size() + 1)) {
-                                break;
-                            } else {
-                                VideoGame selected = result.get(choice - 1);
-                                order.addVideoGameOrder(selected);
-                                inout.showText("Videojuego agregado a la orden: " + selected.getTitle());
-                            }
+                if (store.registeredCustomers().size() == 0) {
+                    inout.showText("No hay clientes registrados.");
+                } else {
+                    Long customerFindCc = inputPositiveLong(inout.inputLong("Ingrese la cedula del cliente: "));
+                    Customer customer = store.FindByCC(customerFindCc);
+                    if (customer != null) {
+                        if (order == null) {
+                            order = new Order(store.getIdOrder(), customer);
                         }
-                        case 2 -> {
-                            ArrayList<VideoGame> result = store
-                                    .searchTitle(inout.inputText("Ingrese el titulo del Video juego:"));
-                            if (result.size() == 0) {
-                                inout.showText("No se encontraron coinsidencias");
-                            } else {
-                                inout.showText("Resultados encontrados:");
-                                for (int i = 0; i < result.size(); i++) {
-                                    StringBuilder sb = new StringBuilder();
-                                    VideoGame game = result.get(i);
-                                    sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
-                                            .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
-                                            .append(game.getPrice());
-                                    inout.showText(sb.toString());
-                                }
-                                inout.showText((result.size() + 1) + ". Para salir.");
-                                int choice = inout.inputInt("Seleccione un videojuego por número:");
-                                if (choice < 1 || (choice > result.size() + 1)) {
-                                    inout.showText("Opción inválida.");
-                                } else if (choice == (result.size() + 1)) {
-                                    break;
-                                } else {
-                                    VideoGame selected = result.get(choice - 1);
-                                    order.addVideoGameOrder(selected);
-                                    inout.showText("Videojuego agregado a la orden: " + selected.getTitle());
-                                }
-                            }
-                        }
-                        case 3 -> {
-                            ArrayList<VideoGame> result = store
-                                    .searchGenre(inout.inputText("Ingrese el genero del Video Juego: "));
-                            StringBuilder sb = new StringBuilder();
-                            if (result.size() == 0) {
-                                inout.showText("No se encontraron coinsidencias");
-                            } else {
-                                for (int i = 0; i < result.size(); i++) {
-                                    VideoGame game = result.get(i);
-                                    sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
-                                            .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
-                                            .append(game.getPrice());
-                                    inout.showText(sb.toString());
-                                }
-                                inout.showText((result.size() + 1) + ". Para salir.");
-                                int choice = inout.inputInt("Seleccione el videojuego por su número:");
-                                if (choice < 1 || choice > (result.size() + 1)) {
-                                    inout.showText("Opción inválida.");
-                                } else if (choice == (result.size() + 1)) {
-                                    break;
-                                } else {
-                                    VideoGame selected = result.get(choice - 1);
-                                    order.addVideoGameOrder(selected);
-                                    inout.showText("Videojuego agregado a la orden: " + selected.getTitle());
-                                }
-                            }
-                        }
-                        case 4 -> {
-                            inout.showListVideoGames(order.getVideoGames());
-                            if (order.getVideoGameCount() == 0) {
-                                inout.showText("La order actual esta vacia.");
-                            } else {
-                                inout.showText("Para un total de " + order.getVideoGameCount() + " Video Juegos.");
-                                inout.showText("Precio total: $ " + order.getTotalPrice());
-                            }
-                        }
-                        case 5 -> {
-                            if (order.getVideoGameCount() == 0) {
-                                inout.showText(
-                                        "Su orden esta vacia.\n(1) Para agregar Video Juegos.\n(2) Cancelar compra.");
-                                int answerOption = inout.inputInt("Seleccione una opción:");
-                                switch (answerOption) {
-                                    case 1 -> {
-                                        break;
-                                    }
-                                    case 2 -> {
-                                        inout.showText("Compra cancelada.");
-                                        options = 6;
-                                        answerOption = 2;
-                                    }
-                                    default -> inout.showText("Opción no válida");
-                                }
-                            } else {
-                                inout.showText("Su compra ha sido exitosa.");
-                                store.addOrder(order);
-                                inout.showText("Orden # " + order.getId());
-                                inout.showText("Video Juegos Comprados: ");
-                                inout.showListVideoGames(order.getVideoGames());
-                                inout.showText("Valor total: $ " + order.getTotalPrice());
-                                options = 6;
-                            }
-                        }
-                        case 6 -> {
-                            inout.showText("Compra cancelada.");
-                            options = 6;
-                        }
-                        default -> inout.showText("Opción no válida");
+                        optionsOrder(customer);
+                    } else {
+                        inout.showText("La cedula " + customerFindCc + " no se encontro.");
                     }
-                } while (options != 6);
+                }
             }
-            case 2 -> option = 2;
+            case 2 -> {
+                if (store.registeredCustomers().size() == 0) {
+                    inout.showText("No hay clientes registrados.");
+                } else {
+                    Long customerFindNumber = inputPositiveLong(inout.inputLong("Ingrese el numero de celular: "));
+                    Customer customer = store.findNumber(customerFindNumber);
+                    if (customer != null) {
+                        if (order == null) {
+                            order = new Order(store.getIdOrder(), customer);
+                        }
+                        optionsOrder(customer);
+                    } else {
+                        inout.showText("El numero " + customerFindNumber + " no se encontro.");
+                    }
+                }
+            }
+            case 3 -> option = 3;
             default -> inout.showText("Opción no válida");
         }
+    }
+
+    private static void optionsOrder(Customer customer) {
+        inout.showText("Bienvenido " + customer.getName());
+        int answerOption;
+        do {
+            if (order == null) {
+                order = new Order(store.getIdOrder(), customer);
+            }
+            showOptionsOrder();
+            answerOption = inout.inputInt("Seleccione una opción:");
+            switch (answerOption) {
+                case 1 -> {
+                    int options = 0;
+                    do {
+
+                        inout.showText(
+                                "(1) Ver Video Juegos disponibles.\n(2) Buscar por titulo.\n(3) Buscar por genero.\n(4) Borrar Video Juegos de la orden.\n(5) Detalles de la orden \n(6) Finalizar compra.\n(7) Salir.");
+                        int answerOrder = inout.inputInt("Seleccione una opción:");
+                        switch (answerOrder) {
+                            case 1 -> {
+                                if (store.availableVideoGames().size() == 0) {
+                                    inout.showText("Por el momento no tenemos ningun Video Juegos diponible.");
+                                } else {
+                                    ArrayList<VideoGame> result = store.availableVideoGames();
+                                    StringBuilder sb = new StringBuilder();
+                                    for (int i = 0; i < result.size(); i++) {
+                                        VideoGame game = result.get(i);
+                                        sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
+                                                .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
+                                                .append(game.getPrice()).append("\n");
+                                    }
+                                    sb.append((result.size() + 1) + ". Para salir.");
+                                    inout.showText(sb.toString());
+                                    int choice = inout.inputInt("Seleccione un videojuego por número:");
+                                    if (choice < 1 || choice > (result.size() + 1)) {
+                                        inout.showText("Opción inválida.");
+                                    } else if (choice == (result.size() + 1)) {
+                                        break;
+                                    } else {
+                                        VideoGame selected = result.get(choice - 1);
+                                        boolean exists = false;
+                                        for (VideoGame vg : order.getVideoGames()) {
+                                            if (vg.getTitle().equalsIgnoreCase(selected.getTitle())) {
+                                                exists = true;
+                                                break;
+                                            }
+                                        }
+                                        if (exists == true) {
+                                            inout.showText("El juego ya está en la lista");
+                                        } else {
+                                            order.addVideoGameOrder(selected);
+                                            inout.showText("Videojuego agregado a la orden: " + selected.getTitle());
+                                        }
+                                    }
+                                }
+                            }
+                            case 2 -> {
+                                if (store.availableVideoGames().size() == 0) {
+                                    inout.showText("Por el momento no tenemos ningun Video Juegos diponible.");
+                                } else {
+                                    ArrayList<VideoGame> result = store
+                                            .searchTitle(inout.inputText("Ingrese el titulo del Video juego:"));
+                                    if (result.size() == 0) {
+                                        inout.showText("No se encontraron coinsidencias");
+                                    } else {
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append("Resultados encontrados:").append("\n");
+                                        for (int i = 0; i < result.size(); i++) {
+                                            VideoGame game = result.get(i);
+                                            sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
+                                                    .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
+                                                    .append(game.getPrice()).append("\n");
+                                        }
+                                        sb.append((result.size() + 1) + ". Para salir.");
+                                        inout.showText(sb.toString());
+                                        int choice = inout.inputInt("Seleccione un videojuego por número:");
+                                        if (choice < 1 || (choice > result.size() + 1)) {
+                                            inout.showText("Opción inválida.");
+                                        } else if (choice == (result.size() + 1)) {
+                                            break;
+                                        } else {
+                                            VideoGame selected = result.get(choice - 1);
+                                            boolean exists = false;
+                                            for (VideoGame vg : order.getVideoGames()) {
+                                                if (vg.getTitle().equalsIgnoreCase(selected.getTitle())) {
+                                                    exists = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (exists == true) {
+                                                inout.showText("El juego ya está en la lista");
+                                            } else {
+                                                order.addVideoGameOrder(selected);
+                                                inout.showText(
+                                                        "Videojuego agregado a la orden: " + selected.getTitle());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            case 3 -> {
+                                if (store.availableVideoGames().size() == 0) {
+                                    inout.showText("Por el momento no tenemos ningun Video Juegos diponible.");
+                                } else {
+                                    ArrayList<VideoGame> result = store
+                                            .searchGenre(inout.inputText("Ingrese el genero del Video Juego: "));
+                                    if (result.size() == 0) {
+                                        inout.showText("No se encontraron coinsidencias");
+                                    } else {
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append("Resultados encontrados:").append("\n");
+                                        for (int i = 0; i < result.size(); i++) {
+                                            VideoGame game = result.get(i);
+                                            sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
+                                                    .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
+                                                    .append(game.getPrice()).append("\n");
+                                        }
+                                        sb.append((result.size() + 1) + ". Para salir.");
+                                        inout.showText(sb.toString());
+                                        int choice = inout.inputInt("Seleccione el videojuego por su número:");
+                                        if (choice < 1 || choice > (result.size() + 1)) {
+                                            inout.showText("Opción inválida.");
+                                        } else if (choice == (result.size() + 1)) {
+                                            break;
+                                        } else {
+                                            VideoGame selected = result.get(choice - 1);
+                                            boolean exists = false;
+                                            for (VideoGame vg : order.getVideoGames()) {
+                                                if (vg.getTitle().equalsIgnoreCase(selected.getTitle())) {
+                                                    exists = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (exists == true) {
+                                                inout.showText("El juego ya está en la lista");
+                                            } else {
+                                                order.addVideoGameOrder(selected);
+                                                inout.showText(
+                                                        "Videojuego agregado a la orden: " + selected.getTitle());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            case 4 -> {
+                                if (order.getVideoGames().size() == 0) {
+                                    inout.showText("Su orden esta vacia.");
+                                } else {
+                                    if (order.getVideoGames().size() == 0) {
+                                        inout.showText("Su orden esta vacia.");
+                                    } else {
+                                        ArrayList<VideoGame> result = order.getVideoGames();
+                                        StringBuilder sb = new StringBuilder();
+                                        for (int i = 0; i < result.size(); i++) {
+                                            VideoGame game = result.get(i);
+                                            sb.append(i + 1).append(". ").append("Titulo: ").append(game.getTitle())
+                                                    .append(", Genero: ").append(game.getGenre()).append(", Precio: $")
+                                                    .append(game.getPrice()).append("\n");
+                                        }
+                                        sb.append((result.size() + 1) + ". Para cancelar.");
+                                        inout.showText(sb.toString());
+                                        int choice = inout
+                                                .inputInt("Seleccione el videojuego que desea eliminar de la orden:");
+                                        if (choice < 1 || (choice > result.size() + 1)) {
+                                            inout.showText("Opción inválida.");
+                                        } else if (choice == (result.size() + 1)) {
+                                            break;
+                                        } else {
+                                            order.removeVideoGameOrder(choice - 1);
+                                            inout.showText("Video Juego eliminado exitosamente.");
+                                        }
+                                    }
+                                }
+                            }
+                            case 5 -> {
+                                if (order.getVideoGameCount() == 0) {
+                                    inout.showText("La order actual esta vacia.");
+                                } else {
+                                    StringBuilder sb = new StringBuilder();
+                                    sb.append("Video Juegos actuales:\n");
+                                    for (VideoGame videoGame : order.getVideoGames()) {
+                                        sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ")
+                                                .append(videoGame.getGenre())
+                                                .append(", Precio: $ ").append(videoGame.getPrice()).append("\n");
+                                    }
+                                    sb.append("Para un total de ").append(order.getVideoGameCount())
+                                            .append(" Video Juegos.\n");
+                                    sb.append("Precio total $ ").append(order.getTotalPrice());
+                                    inout.showText(sb.toString());
+                                }
+                            }
+                            case 6 -> {
+                                if (order.getVideoGameCount() == 0) {
+                                    inout.showText(
+                                            "Su orden esta vacia.\n(1) Para agregar Video Juegos.\n(2) Cancelar compra.");
+                                    int answerOptionExit = inout.inputInt("Seleccione una opción:");
+                                    switch (answerOptionExit) {
+                                        case 1 -> {
+                                            break;
+                                        }
+                                        case 2 -> {
+                                            inout.showText("Compra cancelada.");
+                                            order = null;
+                                            options = 7;
+                                            answerOption = 2;
+                                        }
+                                        default -> inout.showText("Opción no válida");
+                                    }
+                                } else {
+                                    StringBuilder sb = new StringBuilder();
+                                    store.addOrder(order);
+                                    customer.addOrder(order);
+                                    sb.append("Su compra ha sido exitosa.\n");
+                                    sb.append("Orden # ").append(order.getId()).append("\n");
+                                    sb.append("Video Juegos Comprados:\n");
+                                    for (VideoGame videoGame : order.getVideoGames()) {
+                                        sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ")
+                                                .append(videoGame.getGenre())
+                                                .append(", Precio: $ ").append(videoGame.getPrice()).append("\n");
+                                    }
+                                    sb.append("Valor total: $ ").append(order.getTotalPrice());
+                                    inout.showText(sb.toString());
+                                    options = 7;
+                                }
+                            }
+                            case 7 -> {
+                                inout.showText("Compra cancelada.");
+                                order = null;
+                                options = 7;
+                            }
+                            default -> inout.showText("Opción no válida");
+                        }
+                    } while (options != 7);
+                }
+                case 2 -> {
+                    if (customer.getOrdersCustomer().size() == 0) {
+                        inout.showText(customer.getName() + " no tiene ordenes finalizadas.");
+                    } else if (customer.getOrdersCustomer().size() == 1) {
+                        inout.showText(customer.getName() + " tiene: " + customer.getOrdersCustomer().size()
+                                + " orden registrada a su nombre.");
+                        inout.showListOrder(customer.getOrdersCustomer());
+                    } else {
+                        inout.showText(customer.getName() + " tiene: " + customer.getOrdersCustomer().size()
+                                + " ordenes registradas a su nombre.");
+                        inout.showListOrder(customer.getOrdersCustomer());
+                    }
+                }
+                case 3 -> answerOption = 3;
+                default -> inout.showText("Opción no válida");
+            }
+        } while (answerOption != 3);
     }
 
     private static void showOptionStore() {
@@ -533,10 +707,10 @@ public class Main {
             case 4 -> {
                 int answerOrder;
                 do {
-                    showOptionsOrder();
+                    showOptionOrderCustomer();
                     answerOrder = inout.inputInt("Seleccione una opción:");
-                    optionOrder(answerOrder);
-                } while (answerOrder != 2);
+                    optionOrderCustomer(answerOrder);
+                } while (answerOrder != 3);
             }
             case 5 -> {
                 int answerStore;
