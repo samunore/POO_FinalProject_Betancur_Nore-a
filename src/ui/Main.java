@@ -97,7 +97,7 @@ public class Main {
     // Show menu primary on the screen
     private static void showMenuPrimary() {
         inout.showText(
-                "      MENU PRINCIPAL     \n    ¿Qué desea hacer?\n(1) Sobre nosotros.\n(2) Opciones de clientes.\n(3) Opciones de video juegos.\n(4) Opciones de pedidos.\n(5) Opciones de tienda.\n(6) Guardar archivos csv. \n(7) Salir.");
+                "      MENU PRINCIPAL     \n    ¿Qué desea hacer?\n(1) Sobre nosotros.\n(2) Opciones de clientes.\n(3) Opciones de Videojuegos.\n(4) Opciones de pedidos.\n(5) Opciones de tienda.\n(6) Guardar archivos csv. \n(7) Salir.");
     }
 
     // Show about Us on the screen
@@ -161,7 +161,7 @@ public class Main {
     // Show menu videogames
     private static void showOptionsVideoGames() {
         inout.showText(
-                "        OPCIONES DE VIDEO JUEGOS     \n(1) Agregar video juego.\n(2) Volver al menu principal.");
+                "        OPCIONES DE VIDEOJUEGOS     \n(1) Agregar Videojuego.\n(2) Volver al menu principal.");
     }
 
     // Options of the videogames (create videogames)
@@ -268,12 +268,12 @@ public class Main {
                     do {
 
                         inout.showText(
-                                "(1) Ver Video Juegos disponibles.\n(2) Buscar por titulo.\n(3) Buscar por genero.\n(4) Borrar Video Juegos de la orden.\n(5) Detalles de la orden \n(6) Finalizar compra.\n(7) Salir.");
+                                "(1) Ver Videojuegos disponibles.\n(2) Buscar por titulo.\n(3) Buscar por genero.\n(4) Borrar Videojuego de la orden.\n(5) Detalles de la orden \n(6) Finalizar compra.\n(7) Salir.");
                         int answerOrder = inout.inputInt("Seleccione una opción:");
                         switch (answerOrder) {
                             case 1 -> {
                                 if (store.availableVideoGames().size() == 0) {
-                                    inout.showText("Por el momento no tenemos ningun Video Juegos diponible.");
+                                    inout.showText("Por el momento no tenemos ningun Videojuego diponible.");
                                 } else {
                                     ArrayList<VideoGame> result = store.availableVideoGames();
                                     StringBuilder sb = new StringBuilder();
@@ -300,7 +300,7 @@ public class Main {
                                             }
                                         }
                                         if (exists == true) {
-                                            inout.showText("El juego ya está en la lista");
+                                            inout.showText("El Videojuego ya está en la lista");
                                         } else {
                                             order.addVideoGameOrder(selected);
                                             inout.showText("Videojuego agregado a la orden: " + selected.getTitle());
@@ -310,10 +310,10 @@ public class Main {
                             }
                             case 2 -> {
                                 if (store.availableVideoGames().size() == 0) {
-                                    inout.showText("Por el momento no tenemos ningun Video Juegos diponible.");
+                                    inout.showText("Por el momento no tenemos ningun Videojuego diponible.");
                                 } else {
                                     ArrayList<VideoGame> result = store
-                                            .searchTitle(inout.inputText("Ingrese el titulo del Video juego:"));
+                                            .searchTitle(inout.inputText("Ingrese el titulo del Videojuego:"));
                                     if (result.size() == 0) {
                                         inout.showText("No se encontraron coinsidencias");
                                     } else {
@@ -342,7 +342,7 @@ public class Main {
                                                 }
                                             }
                                             if (exists == true) {
-                                                inout.showText("El juego ya está en la lista");
+                                                inout.showText("El Videojuego ya está en la lista");
                                             } else {
                                                 order.addVideoGameOrder(selected);
                                                 inout.showText(
@@ -354,10 +354,10 @@ public class Main {
                             }
                             case 3 -> {
                                 if (store.availableVideoGames().size() == 0) {
-                                    inout.showText("Por el momento no tenemos ningun Video Juegos diponible.");
+                                    inout.showText("Por el momento no tenemos ningun Videojuego diponible.");
                                 } else {
                                     ArrayList<VideoGame> result = store
-                                            .searchGenre(inout.inputText("Ingrese el genero del Video Juego: "));
+                                            .searchGenre(inout.inputText("Ingrese el genero del Videojuego: "));
                                     if (result.size() == 0) {
                                         inout.showText("No se encontraron coinsidencias");
                                     } else {
@@ -386,7 +386,7 @@ public class Main {
                                                 }
                                             }
                                             if (exists == true) {
-                                                inout.showText("El juego ya está en la lista");
+                                                inout.showText("El Videojuego ya está en la lista");
                                             } else {
                                                 order.addVideoGameOrder(selected);
                                                 inout.showText(
@@ -421,7 +421,7 @@ public class Main {
                                             break;
                                         } else {
                                             order.removeVideoGameOrder(choice - 1);
-                                            inout.showText("Video Juego eliminado exitosamente.");
+                                            inout.showText("Videojuego eliminado exitosamente.");
                                         }
                                     }
                                 }
@@ -431,14 +431,14 @@ public class Main {
                                     inout.showText("La order actual esta vacia.");
                                 } else {
                                     StringBuilder sb = new StringBuilder();
-                                    sb.append("Video Juegos actuales:\n");
+                                    sb.append("Videojuegos actuales:\n");
                                     for (VideoGame videoGame : order.getVideoGames()) {
                                         sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ")
                                                 .append(videoGame.getGenre())
                                                 .append(", Precio: $ ").append(videoGame.getPrice()).append("\n");
                                     }
                                     sb.append("Para un total de ").append(order.getVideoGameCount())
-                                            .append(" Video Juegos.\n");
+                                            .append(" Videojuegos.\n");
                                     sb.append("Precio total $ ").append(order.getTotalPrice());
                                     inout.showText(sb.toString());
                                 }
@@ -446,7 +446,7 @@ public class Main {
                             case 6 -> {
                                 if (order.getVideoGameCount() == 0) {
                                     inout.showText(
-                                            "Su orden esta vacia.\n(1) Para agregar Video Juegos.\n(2) Cancelar compra.");
+                                            "Su orden esta vacia.\n(1) Para agregar Videojuegos.\n(2) Cancelar compra.");
                                     int answerOptionExit = inout.inputInt("Seleccione una opción:");
                                     switch (answerOptionExit) {
                                         case 1 -> {
@@ -466,7 +466,7 @@ public class Main {
                                     customer.addOrder(order);
                                     sb.append("Su compra ha sido exitosa.\n");
                                     sb.append("Orden # ").append(order.getId()).append("\n");
-                                    sb.append("Video Juegos Comprados:\n");
+                                    sb.append("VideoJuegos Comprados:\n");
                                     for (VideoGame videoGame : order.getVideoGames()) {
                                         sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ")
                                                 .append(videoGame.getGenre())
@@ -509,7 +509,7 @@ public class Main {
     // Show menu options of the store
     private static void showOptionStore() {
         inout.showText(
-                "        OPCIONES DE TIENDA     \n(1) Nombre de la tienda.\n(2) Registro de ventas.\n(3) Informe de ingresos.\n(4) Ver Video Juegos disponibles.\n(5) Ver clientes registrados.\n(6) Ver ordenes de la tienda.\n(7) Salir.");
+                "        OPCIONES DE TIENDA     \n(1) Nombre de la tienda.\n(2) Registro de ventas.\n(3) Informe de ingresos.\n(4) Ver Videojuegos disponibles.\n(5) Ver clientes registrados.\n(6) Ver ordenes de la tienda.\n(7) Salir.");
     }
 
     // Options store (Name, Sale Record, Income Report, etc)
@@ -534,12 +534,12 @@ public class Main {
             }
             case 4 -> {
                 if (store.availableVideoGames().size() == 0) {
-                    inout.showText("Actualmente no tenemos Video Juegos en nuestra tienda");
+                    inout.showText("Actualmente no tenemos Videojuegos en nuestra tienda.");
                 } else if (store.availableVideoGames().size() == 1) {
-                    inout.showText("Video Juego disponible Actualmente:");
+                    inout.showText("Videojuego disponible Actualmente:");
                     inout.showListVideoGames(store.availableVideoGames());
                 } else {
-                    inout.showText("Video Juegos disponibles Actualmente:");
+                    inout.showText("Videojuegos disponibles Actualmente:");
                     inout.showListVideoGames(store.availableVideoGames());
                 }
             }
@@ -573,7 +573,7 @@ public class Main {
     // Show saving options in CSV format
     private static void showOptionCSV() {
         inout.showText(
-                "        OPCIONES DE GUARDAR EN CSV     \n(1) Guardar Video Juegos, Clientes y Ordenes.\n(2) Guardar Video Juegos.\n(3) Guardar clientes.\n(4) Guardar ordenes.\n(5) Salir.");
+                "        OPCIONES DE GUARDAR EN CSV     \n(1) Guardar Videojuegos, Clientes y Ordenes.\n(2) Guardar Video Juegos.\n(3) Guardar clientes.\n(4) Guardar ordenes.\n(5) Salir.");
     }
 
     // Options CSV format
