@@ -56,5 +56,4 @@ Salida:
 Samuel tiene: 2 órdenes registradas a su nombre.
 ID: 3. Precio total: $250000
 ID: 5. Precio total: $90000
-
 https://github.com/samunore/POO_FinalProject_Betancur_Nore-a/blob/main/ModelDiagram.gif
