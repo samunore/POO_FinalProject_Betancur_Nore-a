@@ -51,10 +51,9 @@ public class IOStoreDialog implements IOStore {
         JOptionPane.showMessageDialog(null, message);
     }
 
-    StringBuilder sb = new StringBuilder();
-
     @Override
     public void showListVideoGames(ArrayList<VideoGame> videoGames) {
+        StringBuilder sb = new StringBuilder();
         for (VideoGame videoGame : videoGames) {
             sb.append("Titulo: ").append(videoGame.getTitle()).append(", Genero: ").append(videoGame.getGenre())
                     .append(", Precio: $ ").append(videoGame.getPrice()).append("\n");
@@ -64,8 +63,9 @@ public class IOStoreDialog implements IOStore {
 
     @Override
     public void showListOrder(ArrayList<Order> orders) {
+        StringBuilder sb = new StringBuilder();
         for (Order order : orders) {
-            sb.append("ID: ").append(order.getId()).append(", \n Precio total: $ ").append(order.getTotalPrice())
+            sb.append("ID: ").append(order.getId()).append(".\nPrecio total: $ ").append(order.getTotalPrice())
                     .append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
@@ -73,8 +73,9 @@ public class IOStoreDialog implements IOStore {
 
     @Override
     public void showListCustomer(ArrayList<Customer> customers) {
+        StringBuilder sb = new StringBuilder();
         for (Customer customer : customers) {
-            sb.append("Nombre: ").append(customer.getName()).append("C.C: ").append(customer.getName())
+            sb.append("Nombre: ").append(customer.getName()).append(", C.C: ").append(customer.getCC())
                     .append(", Celular: ").append(customer.getNumber()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
