@@ -16,6 +16,7 @@ import utils.IOStoreConsole;
 import utils.IOStoreDialog;
 
 public class Main {
+    // Load store information
     private static void loadStore() {
         var loaded = StoreStorage.load(FILE_NAME);
         if (loaded != null) {
@@ -23,14 +24,17 @@ public class Main {
         }
     }
 
+    // Save the store data address
     private static final String FILE_NAME = "src/Storage/store.dat";
 
+    // Save store information
     private static void saveStore() {
         StoreStorage.save(store, FILE_NAME);
     }
 
     static IOStore inout;
 
+    // The user decides how the information is displayed.
     private static void showInformation() {
         int answer = 0;
         boolean valid = false;
@@ -54,11 +58,13 @@ public class Main {
         }
     }
 
+    // initialize the objects
     private static Store store = new Store();
     private static Customer customer;
     private static VideoGame videogame;
     private static Order order;
 
+    // Valid if number is positive
     private static int inputPositiveInt(int number) {
         while (number < 0) {
             inout.showText("Error: No se permiten números negativos.");
@@ -67,6 +73,7 @@ public class Main {
         return number;
     }
 
+    // Valid if number is positive (long)
     private static Long inputPositiveLong(long number) {
         while (number < 0) {
             inout.showText("Error: No se permiten números negativos.");
@@ -76,6 +83,7 @@ public class Main {
         return number;
     }
 
+    // Valid if number is positive (Double)
     private static double inputPositiveDouble(double number) {
         while (number < 0) {
             inout.showText("Error: No se permiten valores negativos.");
@@ -86,21 +94,25 @@ public class Main {
 
     static Scanner input = new Scanner(System.in);
 
+    // Show menu primary on the screen
     private static void showMenuPrimary() {
         inout.showText(
                 "      MENU PRINCIPAL     \n    ¿Qué desea hacer?\n(1) Sobre nosotros.\n(2) Opciones de clientes.\n(3) Opciones de video juegos.\n(4) Opciones de pedidos.\n(5) Opciones de tienda.\n(6) Guardar archivos csv. \n(7) Salir.");
     }
 
+    // Show about Us on the screen
     private static void showAboutUs() {
         inout.showText(
                 "Buen día, esta empresa se basa en el proyecto de programación de Santiago Betancur y Samuel Noreña.\nEn esta tienda aplicamos lo visto en la clase de Programación Orientada a Objetos.\n");
     }
 
+    // Show menu customer on the screen
     private static void showOptionsCustomer() {
         inout.showText(
                 "        OPCIONES DE CLIENTE     \n(1) Buscar cliente por su Cédula de Ciudadanía.\n(2) Buscar cliente por numero de celular.\n(3) Agregar cliente nuevo.\n(4) Volver al menu principal.");
     }
 
+    // Options of the customer (search and create customer)
     private static void optionCustomer(int option) {
         switch (option) {
             case 1 -> {
@@ -146,33 +158,40 @@ public class Main {
         }
     }
 
+    // Show menu videogames
     private static void showOptionsVideoGames() {
         inout.showText(
                 "        OPCIONES DE VIDEO JUEGOS     \n(1) Agregar video juego.\n(2) Volver al menu principal.");
     }
 
+    // Options of the videogames (create videogames)
     private static void optionVideoGames(int option) {
         switch (option) {
             case 1 -> {
                 int times = inputPositiveInt(inout.inputInt("Cuantos Video Juegos desea ingresar:"));
-                for (int i = 0; i < times; i++) {
-                    inout.showText("     Video Juego " + (i + 1));
-                    videogame = new VideoGame();
-                    videogame.setTitle(inout.inputText("Ingrese el titulo del Video Juego:"));
-                    boolean exists = false;
-                    for (VideoGame game : store.availableVideoGames()) {
-                        if (game.getTitle().toLowerCase().equals(videogame.getTitle().toLowerCase())) {
-                            exists = true;
-                            break;
+                if (times == 0) {
+                    inout.showText("No desea agregar videjuegos? okey ");
+                } else {
+                    for (int i = 0; i < times; i++) {
+                        inout.showText("     Video Juego " + (i + 1));
+                        videogame = new VideoGame();
+                        videogame.setTitle(inout.inputText("Ingrese el titulo del Video Juego:"));
+                        boolean exists = false;
+                        for (VideoGame game : store.availableVideoGames()) {
+                            if (game.getTitle().toLowerCase().equals(videogame.getTitle().toLowerCase())) {
+                                exists = true;
+                                break;
+                            }
                         }
-                    }
-                    if (exists != false) {
-                        inout.showText("El video juego que desea ingresar ya esta en la tienda.");
-                    } else {
-                        videogame.setGenre(inout.inputText("Ingrese el genero del Video Juego:"));
-                        videogame.setPrice(inputPositiveDouble(inout.inputDouble("Ingrese el valor del Video Juego:")));
-                        store.addVideoGameStore(videogame);
-                        inout.showText("Video Juego agregado exitosamente.");
+                        if (exists != false) {
+                            inout.showText("El video juego que desea ingresar ya esta en la tienda.");
+                        } else {
+                            videogame.setGenre(inout.inputText("Ingrese el genero del Video Juego:"));
+                            videogame.setPrice(
+                                    inputPositiveDouble(inout.inputDouble("Ingrese el valor del Video Juego:")));
+                            store.addVideoGameStore(videogame);
+                            inout.showText("Video Juego agregado exitosamente.");
+                        }
                     }
                 }
             }
@@ -181,17 +200,19 @@ public class Main {
         }
     }
 
+    // Show association customer with the order
     private static void showOptionOrderCustomer() {
-        inout.showText("Atencion: Para continuar debe estar en registrado en la tienda.");
         inout.showText(
                 "(1) Buscar cliente por su Cédula de Ciudadanía.\n(2) Buscar cliente por numero de celular.\n(3) Volver al menu principal.");
     }
 
+    // Show menu of the orders
     private static void showOptionsOrder() {
         inout.showText(
                 "        OPCIONES DE PEDIDOS     \n(1) Hacer pedido.\n(2) Ver ordernes del cliente.\n(3) Volver al menu anterior.");
     }
 
+    // Customer association options with the order (search and assign to the order)
     private static void optionOrderCustomer(int option) {
         switch (option) {
             case 1 -> {
@@ -231,6 +252,7 @@ public class Main {
         }
     }
 
+    // Options order (add, seacrh and remove videogames in the order)
     private static void optionsOrder(Customer customer) {
         inout.showText("Bienvenido " + customer.getName());
         int answerOption;
@@ -452,6 +474,7 @@ public class Main {
                                     }
                                     sb.append("Valor total: $ ").append(order.getTotalPrice());
                                     inout.showText(sb.toString());
+                                    order = null;
                                     options = 7;
                                 }
                             }
@@ -483,11 +506,13 @@ public class Main {
         } while (answerOption != 3);
     }
 
+    // Show menu options of the store
     private static void showOptionStore() {
         inout.showText(
                 "        OPCIONES DE TIENDA     \n(1) Nombre de la tienda.\n(2) Registro de ventas.\n(3) Informe de ingresos.\n(4) Ver Video Juegos disponibles.\n(5) Ver clientes registrados.\n(6) Ver ordenes de la tienda.\n(7) Salir.");
     }
 
+    // Options store (Name, Sale Record, Income Report, etc)
     private static void optionStore(int option) {
         switch (option) {
             case 1 -> inout.showText("Nombre de la tienda: " + store.getName());
@@ -545,11 +570,13 @@ public class Main {
         }
     }
 
+    // Show saving options in CSV format
     private static void showOptionCSV() {
         inout.showText(
                 "        OPCIONES DE GUARDAR EN CSV     \n(1) Guardar Video Juegos, Clientes y Ordenes.\n(2) Guardar Video Juegos.\n(3) Guardar clientes.\n(4) Guardar ordenes.\n(5) Salir.");
     }
 
+    // Options CSV format
     private static void optionCsv(int option) {
         switch (option) {
             case 1 -> {
@@ -560,11 +587,12 @@ public class Main {
             case 2 -> exportVideoGamesCsv();
             case 3 -> exportCustomerCsv();
             case 4 -> exportOrderCsv();
-            case 5 -> option = 7;
+            case 5 -> option = 5;
             default -> inout.showText("Opción no válida");
         }
     }
 
+    // Encode VideoGames
     private static CSVEncoder<VideoGame> createVideoGamesEncoder() {
         return new CSVEncoder<VideoGame>() {
             @Override
@@ -592,6 +620,7 @@ public class Main {
         };
     }
 
+    // Export videogames to CSV
     private static void exportVideoGamesCsv() {
         CSVEncoder<VideoGame> encoder = createVideoGamesEncoder();
         List<VideoGame> games = store.availableVideoGames();
@@ -605,6 +634,7 @@ public class Main {
         }
     }
 
+    // Encode Customer
     private static CSVEncoder<Customer> createCustomeEncoder() {
         return new CSVEncoder<Customer>() {
             @Override
@@ -632,6 +662,7 @@ public class Main {
         };
     }
 
+    // Export customer to CSv
     private static void exportCustomerCsv() {
         CSVEncoder<Customer> encoder = createCustomeEncoder();
         List<Customer> customers = store.registeredCustomers();
@@ -645,6 +676,7 @@ public class Main {
         }
     }
 
+    // Encode Order
     private static CSVEncoder<Order> createOrdersEncoder() {
         return new CSVEncoder<Order>() {
             @Override
@@ -672,6 +704,7 @@ public class Main {
         };
     }
 
+    // Export order to CSV
     private static void exportOrderCsv() {
         CSVEncoder<Order> encoder = createOrdersEncoder();
         List<Order> orders = store.ordersStore();
@@ -685,6 +718,7 @@ public class Main {
         }
     }
 
+    // Options of the Menu Primary
     private static void optionMenuPrimary(int option) {
         switch (option) {
             case 1 -> showAboutUs();
@@ -706,6 +740,7 @@ public class Main {
             }
             case 4 -> {
                 int answerOrder;
+                inout.showText("Atencion: Para continuar debe estar en registrado en la tienda.");
                 do {
                     showOptionOrderCustomer();
                     answerOrder = inout.inputInt("Seleccione una opción:");
@@ -733,6 +768,7 @@ public class Main {
         }
     }
 
+    // Main
     public static void main(String[] args) {
         loadStore();
         store.setName("La Cucha");
