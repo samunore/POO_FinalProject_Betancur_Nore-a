@@ -1,13 +1,23 @@
 package domain;
+
 import java.io.Serializable;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class Customer implements Serializable {
     private String name = "";
     private long CC = 0;
-    private long number=0;
+    private long number = 0;
+    private ArrayList<Order> orders = new ArrayList<>();
 
-    //private ArrayList<Order> orders = new ArrayList<>();
+    public void addOrder(Order order) {
+        if (order != null) {
+            orders.add(order);
+        }
+    }
+
+    public ArrayList <Order> getOrdersCustomer(){
+        return orders;
+    }
 
     public Customer() {
     }
@@ -28,21 +38,11 @@ public class Customer implements Serializable {
         this.CC = CC;
     }
 
-    public void setNumber(long number){
-        this.number=number;
+    public void setNumber(long number) {
+        this.number = number;
     }
 
-    public long getNumber(){
+    public long getNumber() {
         return number;
     }
-
-    /*public void addOrder(Order order) {
-        if (order != null) {
-            orders.add(order);
-        }
-    }
-
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }*/
 }

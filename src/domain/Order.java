@@ -1,13 +1,16 @@
 package domain;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
     private int id = 0;
+    private Customer customer;
     private Double total = 0.0;
     private ArrayList<VideoGame> videogames = new ArrayList<>();
 
-    public Order(int id) {
+    public Order(int id, Customer customer) {
+        this.customer = customer;
         this.id = id;
     }
 
@@ -22,13 +25,11 @@ public class Order implements Serializable {
         }
     }
 
-    /*
-     * public void removeVideoGameOrder(int position) {
-     * if (position >= 0 && position < videogames.size()) {
-     * videogames.remove(position);
-     * }
-     * }
-     */
+    public void removeVideoGameOrder(int position) {
+        if (position >= 0 && position < videogames.size()) {
+            videogames.remove(position);
+        }
+    }
 
     public double getTotalPrice() {
         total = 0.0;
@@ -46,13 +47,11 @@ public class Order implements Serializable {
         return videogames.size();
     }
 
-    /*
-     * public void clearOrder() {
-     * videogames.clear();
-     * }
-     */
-
     public ArrayList<VideoGame> getVideoGames() {
         return videogames;
+    }
+
+    public String getCustomer() {
+        return customer.getName();
     }
 }
